@@ -7,9 +7,10 @@ function Subscription(unsubscribe) {
 }
 
 Observable.timeout = function (milliseconds) {
-  function funcToRun(next) {
+  function funcToRun(observer) {
     const timeoutId = setTimeout(() => {
-      next();
+      observer.next();
+      observer.complete();
     }, milliseconds);
 
     const unsubscribe = () => {
@@ -23,9 +24,9 @@ Observable.timeout = function (milliseconds) {
 };
 
 Observable.interval = function (milliseconds) {
-  function funcToRun(next) {
+  function funcToRun(observer) {
     const intervalId = setInterval(() => {
-      next();
+      observer.next();
     }, milliseconds);
 
     const unsubscribe = () => {

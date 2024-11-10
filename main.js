@@ -19,19 +19,40 @@ Promise.timeout(1000).then(() => {
 
 // Observable is lazy
 // - The input function is executed when calling the 'subscribe' method
-// - 'subscribe' receives a 'next' function to handle emitted value
 
+// Observer:
+// - Pass an Observer when calling 'subscribe'
+// - Observer is an object that handle emitted values from the Observable
+// - 3 methods: next, complete, error
+
+// Timeout Observable
 const timeoutObservable$ = Observable.timeout(1000);
-timeoutObservable$.subscribe(() => {
-  console.log("hello from timeout observable");
-});
 
+const timeoutObserver = {
+  next: (data) => {
+    console.log("hello from timeout observable");
+  },
+  complete: () => {
+    console.log("timeout observable completed");
+  },
+  error: () => {},
+};
+
+timeoutObservable$.subscribe(timeoutObserver);
+
+// Interval Observable
 const intervalObservable$ = Observable.interval(1000);
-const intervalSubscription = intervalObservable$.subscribe(() => {
-  console.log("hello from interval observable");
-});
 
-// Unsubscribe
+const intervalObserver = {
+  next: (data) => {
+    console.log("hello from interval observable");
+  },
+  complete: () => {}, // the interval observable will not complete
+  error: () => {},
+};
+
+const intervalSubscription = intervalObservable$.subscribe(intervalObserver);
+
 setTimeout(() => {
-  intervalSubscription.unsubscribe()
-}, 10000)
+  intervalSubscription.unsubscribe();
+}, 10000);
