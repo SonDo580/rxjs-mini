@@ -9,8 +9,8 @@ Promise.timeout = function (milliseconds) {
   });
 };
 
-Promise.timeout(1000).then((data) => {
-  console.log(data);
+Promise.timeout(1000).then(() => {
+  console.log("hello from promise");
 });
 
 // ==========
@@ -33,6 +33,21 @@ Observable.timeout = function (milliseconds) {
   return new Observable(funcToRun);
 };
 
+Observable.interval = function (milliseconds) {
+  function funcToRun(next) {
+    setInterval(() => {
+      next();
+    }, milliseconds);
+  }
+
+  return new Observable(funcToRun);
+};
+
+// Usages
 Observable.timeout(1000).subscribe(() => {
-  console.log("hello");
+  console.log("hello from timeout observable");
+});
+
+Observable.interval(1000).subscribe(() => {
+  console.log("hello from interval observable");
 });
