@@ -1,5 +1,5 @@
-function Observable(funcToRun) {
-  this.subscribe = funcToRun;
+function Observable(subscribe) {
+  this.subscribe = subscribe;
 }
 
 function Subscription(unsubscribe) {
@@ -7,7 +7,7 @@ function Subscription(unsubscribe) {
 }
 
 Observable.timeout = function (milliseconds) {
-  function funcToRun(observer) {
+  function subscribe(observer) {
     const timeoutId = setTimeout(() => {
       observer.next();
       observer.complete();
@@ -20,11 +20,11 @@ Observable.timeout = function (milliseconds) {
     return new Subscription(unsubscribe);
   }
 
-  return new Observable(funcToRun);
+  return new Observable(subscribe);
 };
 
 Observable.interval = function (milliseconds) {
-  function funcToRun(observer) {
+  function subscribe(observer) {
     const intervalId = setInterval(() => {
       observer.next();
     }, milliseconds);
@@ -37,5 +37,5 @@ Observable.interval = function (milliseconds) {
     return new Subscription(unsubscribe);
   }
 
-  return new Observable(funcToRun);
+  return new Observable(subscribe);
 };
